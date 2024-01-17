@@ -3,25 +3,23 @@
 #include "rgb_lcd.h" // inclure la bibliothèque pour l'écran LCD
 
 rgb_lcd lcd; // création d'un objet lcd
+char cm[3] = " cm";
 
 Ultrasonic ultrasonic(7);
 void setup()
 {
     Serial.begin(9600);
     lcd.begin(16, 2);   // configurer le nombre de colonnes et de lignes de l'écran LCD :
- 
-      // Ecrire un message sur l'écran LCD
-    lcd.clear();   // effacer l'écran
-    lcd.setCursor(4, 0);  // mettre le curseur à la cinquième colonne, première ligne
-    lcd.print("Arduino");   // afficher "Arduino"
-    lcd.setCursor(1, 1);  // mettre le curseur à la deuxième colonne, deuxième ligne
-    lcd.print("au lycee Valin");   // afficher "au lycee Valin"
 }
 void loop()
 {
     long RangeInCentimeters;
     RangeInCentimeters = ultrasonic.MeasureInCentimeters(); // two measurements should keep an interval
-    Serial.print(RangeInCentimeters);//0~400cm
-    Serial.println(" cm");
-    delay(250);
+    char str[128];
+    sprintf(str, "%lld", RangeInCentimeters);
+    strcat(str, cm);
+    lcd.clear();
+    lcd.setCursor(6, 0);
+    lcd.print(range);
+    delay(5000);
 }
